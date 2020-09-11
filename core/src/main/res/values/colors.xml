@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fa8231</color>
+    <color name="colorPrimaryDark">#c15300</color>
+    <color name="colorAccent">#7AB92D</color>
+
+    <color name="colorSilver">#CCCCCC</color>
+    <color name="colorTundora">#424242</color>
+    <color name="colorWhiteLilac">#F6F7FB</color>
+    <color name="colorAlto">#DADADA</color>
+    <color name="colorAquaHaze">#F4F6F9</color>
+    <color name="colorGallery">#eeeeee</color>
+    <color name="colorBoulder">#757575</color>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">InFood</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_recipe">Recipe</string>
+    <string name="title_favorite">Favorite</string>
+</resources>

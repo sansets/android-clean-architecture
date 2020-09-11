@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: '../deps.gradle'
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId config.applictionId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    dynamicFeatures = [
+            ':features:home',
+            ':features:recipe'
+    ]
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    // Module
+    implementation project(":core")
+
+    // Support
+    implementation supportDependencies.material
+
+    // Navigation
+    implementation navigationDependencies.fragmentKtx
+    implementation navigationDependencies.uiKtx
+
+    // Dependency Injection
+    implementation injectionDependencies.dagger
+    kapt injectionDependencies.daggerCompiler
+
+    // Network
+    implementation networkDependencies.picasso
+
+    // Unit Test
+    testImplementation testDependencies.junit
+
+    // Instrumentation Test
+    androidTestImplementation testDependencies.androidxJunit
+}

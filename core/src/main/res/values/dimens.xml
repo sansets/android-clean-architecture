@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_compound_drawable_padding">8dp</dimen>
+    <dimen name="default_icon_category_width">64dp</dimen>
+    <dimen name="default_icon_category_height">64dp</dimen>
+</resources>

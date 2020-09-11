@@ -1,0 +1,6 @@
+rootProject.name = "InFood"
+
+include ':app'
+include ':core'
+include ':features:home'
+include ':features:recipe'
