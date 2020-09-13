@@ -44,6 +44,10 @@ dependencies {
     implementation supportDependencies.material
     implementation supportDependencies.lifecycleLiveData
 
+    // Navigation
+    implementation navigationDependencies.fragmentKtx
+    implementation navigationDependencies.uiKtx
+
     // Dependency Injection
     implementation injectionDependencies.dagger
     kapt injectionDependencies.daggerCompiler

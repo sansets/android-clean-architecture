@@ -46,7 +46,7 @@ ext {
 
     layoutDependencies = [
             constraint  : "androidx.constraintlayout:constraintlayout:1.1.3",
-            swiperefresh: "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0",
+            swiperefresh: "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
             gridlayout  : "androidx.gridlayout:gridlayout:1.0.0",
     ]
 

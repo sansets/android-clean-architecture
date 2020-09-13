@@ -4,4 +4,6 @@
     <string name="title_home">Home</string>
     <string name="title_recipe">Recipe</string>
     <string name="title_favorite">Favorite</string>
+    
+    <string name="deeplink_feature_recipe_list">infood://recipe/list</string>
 </resources>

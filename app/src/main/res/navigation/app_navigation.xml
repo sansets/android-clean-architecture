@@ -13,8 +13,18 @@
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="id.sansets.infood.recipe.favorite.FavoriteFragment"
+        android:name="id.sansets.infood.recipe.presenter.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/navigation_recipe_list"
+        android:name="id.sansets.infood.recipe.presenter.list.RecipeListFragment"
+        android:label="@string/title_recipe"
+        tools:layout="@layout/fragment_recipe_list">
+
+        <deepLink app:uri="@string/deeplink_feature_recipe_list" />
+
+    </fragment>
 
 </navigation>

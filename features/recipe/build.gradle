@@ -38,7 +38,13 @@ dependencies {
     implementation project(":core")
 
     // Support
+    implementation supportDependencies.coreKtx
+    implementation supportDependencies.fragmentKtx
     implementation supportDependencies.material
+    implementation supportDependencies.lifecycleLiveData
+
+    // Layout
+    implementation layoutDependencies.swiperefresh
 
     // Unit Test
     testImplementation testDependencies.junit

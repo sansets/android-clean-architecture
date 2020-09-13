@@ -1,6 +1,7 @@
 package id.sansets.infood.home.presenter
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import id.sansets.infood.InFoodApplication
 import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.FoodCategory
@@ -16,6 +18,7 @@ import id.sansets.infood.core.util.setAppBarElevationListener
 import id.sansets.infood.home.databinding.FragmentHomeBinding
 import id.sansets.infood.home.di.DaggerHomeComponent
 import javax.inject.Inject
+import id.sansets.infood.R as appR
 
 /**
  * A simple [Fragment] subclass.
@@ -61,7 +64,7 @@ class HomeFragment : Fragment(), HomeActionListener {
     }
 
     override fun onFoodCategoryClicked(foodCategory: FoodCategory?) {
-
+        findNavController().navigate(Uri.parse(getString(appR.string.deeplink_feature_recipe_list)))
     }
 
     private fun initView() {

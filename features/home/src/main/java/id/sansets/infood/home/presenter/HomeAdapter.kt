@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.home.R
-import id.sansets.infood.home.databinding.ItemSectionFoodCategoryBinding
+import id.sansets.infood.home.databinding.ItemSectionFoodCategoriesBinding
 import id.sansets.infood.core.R as coreR
 
 class HomeAdapter(
@@ -19,7 +19,7 @@ class HomeAdapter(
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            R.layout.item_section_food_category -> FoodCategoryViewHolder(
+            R.layout.item_section_food_categories -> FoodCategoryViewHolder(
                 inflater.inflate(viewType, parent, false)
             )
             else -> EmptyViewHolder(
@@ -32,7 +32,7 @@ class HomeAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> R.layout.item_section_food_category
+            0 -> R.layout.item_section_food_categories
             else -> coreR.layout.item_empty
         }
     }
@@ -59,7 +59,7 @@ class HomeAdapter(
 
     class FoodCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val binding = ItemSectionFoodCategoryBinding.bind(itemView)
+        private val binding = ItemSectionFoodCategoriesBinding.bind(itemView)
         private lateinit var adapter: HomeFoodCategoryAdapter
 
         fun onBind(
