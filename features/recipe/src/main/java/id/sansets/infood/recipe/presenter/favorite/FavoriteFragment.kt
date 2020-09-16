@@ -1,4 +1,4 @@
-package id.sansets.infood.recipe.favorite
+package id.sansets.infood.recipe.presenter.favorite
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,6 +1,8 @@
 apply plugin: "com.android.dynamic-feature"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: '../../deps.gradle'
 
 android {
@@ -38,7 +40,22 @@ dependencies {
     implementation project(":core")
 
     // Support
+    implementation supportDependencies.coreKtx
+    implementation supportDependencies.fragmentKtx
     implementation supportDependencies.material
+    implementation supportDependencies.lifecycleLiveData
+
+    // Layout
+    implementation layoutDependencies.swiperefresh
+
+    // Dependency Injection
+    kapt injectionDependencies.daggerCompiler
+
+    // Network
+    implementation networkDependencies.picasso
+
+    // Libraries
+    implementation libraries.shimmer
 
     // Unit Test
     testImplementation testDependencies.junit

@@ -9,12 +9,32 @@
         android:id="@+id/navigation_home"
         android:name="id.sansets.infood.home.presenter.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_fragment_to_recipe_list_fragment"
+            app:destination="@id/navigation_recipe_list" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="id.sansets.infood.recipe.favorite.FavoriteFragment"
+        android:name="id.sansets.infood.recipe.presenter.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/navigation_recipe_list"
+        android:name="id.sansets.infood.recipe.presenter.list.RecipeListFragment"
+        android:label="@string/title_recipe"
+        tools:layout="@layout/fragment_recipe_list">
+
+        <argument
+            android:name="@string/argument_food_category"
+            android:defaultValue="@null"
+            app:argType="id.sansets.infood.core.domain.model.ListFoodCategory"
+            app:nullable="true" />
+
+    </fragment>
 
 </navigation>

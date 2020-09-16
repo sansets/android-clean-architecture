@@ -5,10 +5,10 @@ import id.sansets.infood.core.data.source.remote.CoreRemoteDataSource
 import id.sansets.infood.core.data.source.remote.network.ApiResponse
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
 import id.sansets.infood.core.domain.model.FoodCategory
+import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.domain.repository.ICoreRepository
 import id.sansets.infood.core.util.DataMapper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,11 +20,10 @@ class CoreRepository @Inject constructor(
 
     override fun getFoodCategories(): Flow<Resource<List<FoodCategory>>> =
         object : NetworkBoundResource<List<FoodCategory>, List<FoodCategoryResponse>>() {
-            override fun loadFromDB(): Flow<List<FoodCategory>> {
-                return localDataSource.getFoodCategories().map {
-                    DataMapper.mapEntitiesToDomain(it)
+            override fun loadFromDB(): Flow<List<FoodCategory>> =
+                localDataSource.getFoodCategories().map {
+                    DataMapper.mapFoodCategoryEntitiesToDomain(it)
                 }
-            }
 
             override fun shouldFetch(data: List<FoodCategory>?): Boolean = true
 
@@ -32,8 +31,33 @@ class CoreRepository @Inject constructor(
                 remoteDataSource.getFoodCategories()
 
             override suspend fun saveCallResult(data: List<FoodCategoryResponse>) {
-                val foodCategories = DataMapper.mapResponsesToEntities(data)
+                val foodCategories = DataMapper.mapFoodCategoryResponsesToEntities(data)
                 localDataSource.insertFoodCategories(foodCategories)
             }
         }.asFlow()
+
+    override fun getRecipes(
+        query: String?,
+        type: String?,
+        addRecipeInformation: Boolean?
+    ): Flow<Resource<List<Recipe>>> {
+        return flow {
+            emit(Resource.Loading())
+            emitAll(remoteDataSource.getRecipes(query = query, type = type).map {
+                when (it) {
+                    is ApiResponse.Success -> {
+                        Resource.Success(it.data.map { recipeResponse ->
+                            DataMapper.mapRecipeResponseToDomain(recipeResponse)
+                        })
+                    }
+                    is ApiResponse.Empty -> {
+                        Resource.Success(emptyList())
+                    }
+                    is ApiResponse.Error -> {
+                        Resource.Error(it.errorMessage)
+                    }
+                }
+            })
+        }
+    }
 }

@@ -4,4 +4,6 @@
     <string name="title_home">Home</string>
     <string name="title_recipe">Recipe</string>
     <string name="title_favorite">Favorite</string>
+    
+    <string name="argument_food_category">food_category</string>
 </resources>

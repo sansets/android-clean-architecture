@@ -8,6 +8,9 @@ android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
     defaultConfig {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
@@ -15,6 +18,7 @@ android {
         versionName config.versionName
 
         buildConfigField("String", "BASE_URL", "\"https://api.spoonacular.com/\"")
+        buildConfigField("String", "SPOONACULAR_API_KEY", properties.getProperty("spoonacular.key"))
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -48,8 +52,12 @@ dependencies {
     implementation supportDependencies.material
     implementation supportDependencies.lifecycleCommonJava
 
+    // Navigation
+    api navigationDependencies.fragmentKtx
+    api navigationDependencies.uiKtx
+
     // Dependency Injection
-    implementation injectionDependencies.dagger
+    api injectionDependencies.dagger
     kapt injectionDependencies.daggerCompiler
 
     // Database
@@ -59,11 +67,15 @@ dependencies {
     // Network
     implementation networkDependencies.retrofit
     implementation networkDependencies.retrofitConverterMoshi
-    implementation networkDependencies.moshi
     implementation networkDependencies.okHttp
     implementation networkDependencies.okHttpLogginInterceptor
+    implementation networkDependencies.moshi
+    kapt networkDependencies.moshiKotlinCodegen
     debugImplementation networkDependencies.chuckerDebug
     releaseImplementation networkDependencies.chuckerRelease
+
+    // Libraries
+    implementation libraries.shimmer
 
     // Unit Test
     testImplementation testDependencies.junit
