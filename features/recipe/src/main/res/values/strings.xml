@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hint_search_recipe">Search food recipes…</string>
+
+    <string name="message_recipe_not_found">Recipe not found</string>
 </resources>

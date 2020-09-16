@@ -1,7 +1,6 @@
 package id.sansets.infood.home.presenter
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +12,12 @@ import androidx.navigation.fragment.findNavController
 import id.sansets.infood.InFoodApplication
 import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.FoodCategory
+import id.sansets.infood.core.domain.model.ListFoodCategory
 import id.sansets.infood.core.util.autoCleared
 import id.sansets.infood.core.util.setAppBarElevationListener
 import id.sansets.infood.home.databinding.FragmentHomeBinding
 import id.sansets.infood.home.di.DaggerHomeComponent
 import javax.inject.Inject
-import id.sansets.infood.R as appR
 
 /**
  * A simple [Fragment] subclass.
@@ -33,7 +32,7 @@ class HomeFragment : Fragment(), HomeActionListener {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: HomeViewModel by viewModels { viewModelFactory }
-    private val homeAdapter: HomeAdapter by lazy { HomeAdapter(this) }
+    private val homeSectionAdapter: HomeSectionAdapter by lazy { HomeSectionAdapter(this) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,12 +63,17 @@ class HomeFragment : Fragment(), HomeActionListener {
     }
 
     override fun onFoodCategoryClicked(foodCategory: FoodCategory?) {
-        findNavController().navigate(Uri.parse(getString(appR.string.deeplink_feature_recipe_list)))
+        val action = HomeFragmentDirections.actionHomeFragmentToRecipeListFragment(
+            ListFoodCategory(
+                listOf(foodCategory)
+            )
+        )
+        findNavController().navigate(action)
     }
 
     private fun initView() {
         binding.rvHome.apply {
-            adapter = homeAdapter
+            adapter = homeSectionAdapter
             setAppBarElevationListener(binding.appBar)
         }
     }
@@ -81,7 +85,7 @@ class HomeFragment : Fragment(), HomeActionListener {
 
                 }
                 is Resource.Success -> {
-                    homeAdapter.setFoodCategories(it.data)
+                    homeSectionAdapter.setFoodCategories(it.data)
                 }
                 is Resource.Error -> {
 

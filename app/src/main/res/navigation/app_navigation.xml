@@ -9,7 +9,13 @@
         android:id="@+id/navigation_home"
         android:name="id.sansets.infood.home.presenter.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_fragment_to_recipe_list_fragment"
+            app:destination="@id/navigation_recipe_list" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
@@ -23,7 +29,11 @@
         android:label="@string/title_recipe"
         tools:layout="@layout/fragment_recipe_list">
 
-        <deepLink app:uri="@string/deeplink_feature_recipe_list" />
+        <argument
+            android:name="@string/argument_food_category"
+            android:defaultValue="@null"
+            app:argType="id.sansets.infood.core.domain.model.ListFoodCategory"
+            app:nullable="true" />
 
     </fragment>
 

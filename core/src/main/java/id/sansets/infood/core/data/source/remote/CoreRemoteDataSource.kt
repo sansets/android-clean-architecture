@@ -1,8 +1,10 @@
 package id.sansets.infood.core.data.source.remote
 
+import id.sansets.infood.core.BuildConfig
 import id.sansets.infood.core.data.source.remote.network.ApiResponse
 import id.sansets.infood.core.data.source.remote.network.CoreApiService
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
+import id.sansets.infood.core.data.source.remote.response.RecipeResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -53,6 +55,32 @@ class CoreRemoteDataSource @Inject constructor(private val apiService: CoreApiSe
                         "https://firebasestorage.googleapis.com/v0/b/infood-e9a12.appspot.com/o/food_categories%2Fic_color_breakfast_64.png?alt=media&token=7c78869a-ce98-4ec9-9c0a-21eb87cbdaf7"
                     ),
                 )
+
+                if (dataArray.isNotEmpty()) {
+                    emit(ApiResponse.Success(dataArray))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getRecipes(
+        query: String?,
+        type: String?,
+        addRecipeInformation: Boolean? = true
+    ): Flow<ApiResponse<List<RecipeResponse>>> {
+        return flow {
+            try {
+                val response = apiService.getRecipes(
+                    apiKey = BuildConfig.SPOONACULAR_API_KEY,
+                    query = query,
+                    type = type,
+                    addRecipeInformation = addRecipeInformation
+                )
+                val dataArray = response.results
 
                 if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(dataArray))

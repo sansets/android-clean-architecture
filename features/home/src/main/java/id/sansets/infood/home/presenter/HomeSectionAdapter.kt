@@ -9,7 +9,7 @@ import id.sansets.infood.home.R
 import id.sansets.infood.home.databinding.ItemSectionFoodCategoriesBinding
 import id.sansets.infood.core.R as coreR
 
-class HomeAdapter(
+class HomeSectionAdapter(
     private val actionListener: HomeActionListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

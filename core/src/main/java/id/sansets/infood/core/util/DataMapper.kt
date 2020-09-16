@@ -2,11 +2,13 @@ package id.sansets.infood.core.util
 
 import id.sansets.infood.core.data.source.local.entity.FoodCategoryEntity
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
+import id.sansets.infood.core.data.source.remote.response.RecipeResponse
 import id.sansets.infood.core.domain.model.FoodCategory
+import id.sansets.infood.core.domain.model.Recipe
 
 object DataMapper {
 
-    fun mapResponsesToEntities(input: List<FoodCategoryResponse>): List<FoodCategoryEntity> {
+    fun mapFoodCategoryResponsesToEntities(input: List<FoodCategoryResponse>): List<FoodCategoryEntity> {
         val foodCategories = ArrayList<FoodCategoryEntity>()
         input.map {
             val foodCategory = FoodCategoryEntity(
@@ -19,7 +21,7 @@ object DataMapper {
         return foodCategories
     }
 
-    fun mapEntitiesToDomain(input: List<FoodCategoryEntity>): List<FoodCategory> =
+    fun mapFoodCategoryEntitiesToDomain(input: List<FoodCategoryEntity>): List<FoodCategory> =
         input.map {
             FoodCategory(
                 id = it.id,
@@ -28,9 +30,11 @@ object DataMapper {
             )
         }
 
-    fun mapDomainToEntity(input: FoodCategory) = FoodCategoryEntity(
+    fun mapRecipeResponseToDomain(input: RecipeResponse): Recipe = Recipe(
         id = input.id,
-        title = input.title,
-        iconUrl = input.iconUrl
+        title = input.title ?: "",
+        imageUrl = input.imageUrl ?: "",
+        sourceName = input.sourceName ?: "",
+        isFavorite = false,
     )
 }

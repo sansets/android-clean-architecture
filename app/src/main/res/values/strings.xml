@@ -5,5 +5,5 @@
     <string name="title_recipe">Recipe</string>
     <string name="title_favorite">Favorite</string>
     
-    <string name="deeplink_feature_recipe_list">infood://recipe/list</string>
+    <string name="argument_food_category">food_category</string>
 </resources>
