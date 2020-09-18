@@ -62,7 +62,7 @@ class HomeFragment : Fragment(), HomeActionListener {
             .inject(this)
     }
 
-    override fun onFoodCategoryClicked(foodCategory: FoodCategory?) {
+    override fun onFoodCategoryClicked(foodCategory: FoodCategory) {
         val action = HomeFragmentDirections.actionHomeFragmentToRecipeListFragment(
             ListFoodCategory(
                 listOf(foodCategory)

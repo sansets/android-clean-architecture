@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ListFoodCategory(
-    val foodCategories: List<FoodCategory?> = emptyList()
+    val foodCategories: List<FoodCategory> = emptyList()
 ) : Parcelable

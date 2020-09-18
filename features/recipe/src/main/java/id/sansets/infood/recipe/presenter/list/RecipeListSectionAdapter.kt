@@ -61,6 +61,16 @@ class RecipeListSectionAdapter(
         }
     }
 
+    fun setFilterFoodCategories(foodCategories: List<FoodCategory>?) {
+        foodCategories?.let {
+            this.filterFoodCategories.apply {
+                clear()
+                addAll(it)
+            }
+            notifyItemChanged(0)
+        }
+    }
+
     fun setRecipeList(recipes: List<Recipe>?) {
         recipes?.let {
             this.recipes.apply {
@@ -93,6 +103,8 @@ class FoodCategoryViewHolder(
             val parent = binding.chipGroupCategory
             val chip = (inflater.inflate(layoutRes, parent, false) as Chip).apply {
                 text = foodCategory.title
+                isClickable = false
+                isCloseIconVisible = true
                 setOnCloseIconClickListener {
                     actionListener.onRemoveFilterFoodCategory(foodCategory)
                 }

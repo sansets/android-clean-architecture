@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import id.sansets.infood.InFoodApplication
 import id.sansets.infood.core.data.Resource
@@ -21,6 +22,7 @@ import id.sansets.infood.core.util.autoCleared
 import id.sansets.infood.core.util.setAppBarElevationListener
 import id.sansets.infood.recipe.databinding.FragmentRecipeListBinding
 import id.sansets.infood.recipe.di.DaggerRecipeComponent
+import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
@@ -35,15 +37,21 @@ import id.sansets.infood.core.R as coreR
 @FlowPreview
 class RecipeListFragment : Fragment(), RecipeListActionListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
+
     private var binding by autoCleared<FragmentRecipeListBinding>()
     private val args: RecipeListFragmentArgs by navArgs()
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
     private val recipeSectionAdapter: RecipeListSectionAdapter by lazy {
         RecipeListSectionAdapter(this)
+    }
+
+    private val filterDialog: RecipeFilterFragment by lazy {
+        RecipeFilterFragment().apply {
+            onFilterApply = { viewModel.updateFoodCategoriesFilter(it) }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -76,11 +84,12 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
     }
 
     override fun onOpenRecipeFilter() {
-
+        filterDialog.setSelectedFoodCategories(viewModel.filterFoodCategoryList.value ?: ArrayList())
+        filterDialog.show(childFragmentManager, RecipeFilterFragment.TAG)
     }
 
     override fun onRemoveFilterFoodCategory(foodCategory: FoodCategory) {
-
+        viewModel.removeFoodCategoryFilter(foodCategory)
     }
 
     override fun onOpenRecipeDetail(recipe: Recipe?) {
@@ -100,6 +109,7 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
     private fun initView() {
         binding.root.findViewById<TextView>(androidx.appcompat.R.id.search_src_text).typeface =
             ResourcesCompat.getFont(requireContext(), coreR.font.raleway_medium)
+        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.searchView.setOnQueryTextListener(binding.searchView.onQueryTextListener())
         binding.btnFilter.setOnClickListener { onOpenRecipeFilter() }
         binding.swipeRefresh.apply {
@@ -125,18 +135,20 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
                 }
             }
         })
+
+        viewModel.filterFoodCategoryList.observe(viewLifecycleOwner, {
+            recipeSectionAdapter.setFilterFoodCategories(it)
+            viewModel.getRecipes(
+                binding.searchView.query.toString(),
+                it.map { foodCategory -> foodCategory.title }.joinToString()
+            )
+        })
     }
 
     private fun initData() {
-        val foodCategories = args.StringArgumentFoodCategory?.foodCategories
-        val foodCategoriesString =
-            if (foodCategories.isNullOrEmpty()) null else foodCategories.map { it?.title }
-                .joinToString()
-
-        viewModel.getRecipes(
-            query = viewModel.query.value?.query,
-            filterFoodCategories = foodCategoriesString
-        )
+        args.StringArgumentFoodCategory?.foodCategories?.let {
+            viewModel.updateFoodCategoriesFilter(ArrayList<FoodCategory>().apply { addAll(it) })
+        }
     }
 
     private fun SearchView.onQueryTextListener(): SearchView.OnQueryTextListener {
