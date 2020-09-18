@@ -49,17 +49,17 @@ class HomeFoodCategoryAdapter(
 
         private val binding = ItemFoodCategoryBinding.bind(itemView)
 
-        fun onBind(foodCategory: FoodCategory?) {
+        fun onBind(foodCategory: FoodCategory) {
             val context = binding.btnFoodCategory.context
 
             binding.btnFoodCategory.apply {
-                text = foodCategory?.title
+                text = foodCategory.title
                 compoundDrawablePadding = context.resources.getDimension(coreR.dimen.default_compound_drawable_padding).toInt()
                 setOnClickListener { actionListener.onFoodCategoryClicked(foodCategory) }
             }
 
             Picasso.get()
-                .load(foodCategory?.iconUrl)
+                .load(foodCategory.iconUrl)
                 .into(object : com.squareup.picasso.Target {
                     override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                         val drawable = createScaledDrawable(context, bitmap)

@@ -2,6 +2,7 @@ package id.sansets.infood.recipe.di
 
 import dagger.Component
 import id.sansets.infood.core.di.CoreComponent
+import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
 import id.sansets.infood.recipe.presenter.list.RecipeListFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -21,4 +22,6 @@ interface RecipeComponent {
     @FlowPreview
     @ExperimentalCoroutinesApi
     fun inject(fragment: RecipeListFragment)
+
+    fun inject(fragment: RecipeFilterFragment)
 }

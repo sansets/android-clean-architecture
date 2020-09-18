@@ -4,5 +4,5 @@ import id.sansets.infood.core.domain.model.FoodCategory
 
 interface HomeActionListener {
 
-    fun onFoodCategoryClicked(foodCategory: FoodCategory?)
+    fun onFoodCategoryClicked(foodCategory: FoodCategory)
 }

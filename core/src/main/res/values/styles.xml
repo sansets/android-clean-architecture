@@ -132,8 +132,7 @@
 
     <!-- Chip styles. -->
 
-    <style name="Chip.Default" parent="Widget.MaterialComponents.Chip.Action">
-        <item name="chipBackgroundColor">@android:color/primary_text_dark</item>
+    <style name="Chip.Default" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipStrokeColor">@color/colorGallery</item>
         <item name="chipStrokeWidth">1dp</item>
     </style>

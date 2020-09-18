@@ -11,6 +11,7 @@
         style="@style/AppBar.Default">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             style="@style/Toolbar.Default"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_baseline_arrow_left_24">
