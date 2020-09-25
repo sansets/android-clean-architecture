@@ -13,6 +13,8 @@ data class Recipe(
     val sourceName: String,
     val dishTypes: List<String>,
     val analyzedInstructions: List<Instruction>,
+    val steps: List<Step>,
+    val ingredients: List<Ingredient>,
     val isFavorite: Boolean
 ) : Parcelable
 
