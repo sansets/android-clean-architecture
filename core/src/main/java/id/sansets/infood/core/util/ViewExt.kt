@@ -2,7 +2,10 @@ package id.sansets.infood.core.util
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.os.Build
+import android.text.Html
 import android.view.View
+import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
@@ -77,4 +80,12 @@ fun RecyclerView.setAppBarElevationListener(appBar: AppBarLayout?) {
             }
         }
     })
+}
+
+fun TextView.setTextFromHtml(text: String?) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT))
+    } else {
+        setText(Html.fromHtml(text))
+    }
 }

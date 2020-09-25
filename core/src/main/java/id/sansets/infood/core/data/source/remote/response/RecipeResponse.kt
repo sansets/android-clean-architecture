@@ -12,9 +12,21 @@ data class RecipeResponse(
     @Json(name = "title")
     val title: String?,
 
+    @Json(name = "summary")
+    val summary: String?,
+
     @Json(name = "image")
     val imageUrl: String?,
 
+    @Json(name = "imageType")
+    val imageType: String?,
+
     @Json(name = "sourceName")
-    val sourceName: String?
+    val sourceName: String?,
+
+    @Json(name = "dishTypes")
+    val dishTypes: List<String>?,
+
+    @Json(name = "analyzedInstructions")
+    val analyzedInstructions: List<InstructionResponse>?
 )

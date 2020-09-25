@@ -17,7 +17,8 @@ android {
         versionCode config.versionCode
         versionName config.versionName
 
-        buildConfigField("String", "BASE_URL", "\"https://api.spoonacular.com/\"")
+        buildConfigField("String", "BASE_URL_API", "\"https://api.spoonacular.com/\"")
+        buildConfigField("String", "BASE_URL", "\"https://spoonacular.com/\"")
         buildConfigField("String", "SPOONACULAR_API_KEY", properties.getProperty("spoonacular.key"))
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

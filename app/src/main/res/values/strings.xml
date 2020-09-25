@@ -3,8 +3,10 @@
 
     <string name="title_home">Home</string>
     <string name="title_recipe">Recipe</string>
+    <string name="title_recipe_detail">Recipe Detail</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_filter">Filter</string>
 
     <string name="argument_food_category">food_category</string>
+    <string name="argument_recipe">recipe</string>
 </resources>

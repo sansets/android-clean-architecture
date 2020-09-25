@@ -47,7 +47,7 @@ class CoreNetworkModule {
     @Provides
     fun provideCoreApiService(client: OkHttpClient): CoreApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL_API)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()

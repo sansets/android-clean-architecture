@@ -29,10 +29,28 @@
         android:label="@string/title_recipe"
         tools:layout="@layout/fragment_recipe_list">
 
+        <action
+            android:id="@+id/action_recipe_list_fragment_to_recipe_detail_fragment"
+            app:destination="@id/navigation_recipe_detail" />
+
         <argument
             android:name="@string/argument_food_category"
             android:defaultValue="@null"
             app:argType="id.sansets.infood.core.domain.model.ListFoodCategory"
+            app:nullable="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_recipe_detail"
+        android:name="id.sansets.infood.recipe.presenter.detail.RecipeDetailFragment"
+        android:label="@string/title_recipe_detail"
+        tools:layout="@layout/fragment_recipe_detail">
+
+        <argument
+            android:name="@string/argument_recipe"
+            android:defaultValue="@null"
+            app:argType="id.sansets.infood.core.domain.model.Recipe"
             app:nullable="true" />
 
     </fragment>
