@@ -1,12 +1,14 @@
 package id.sansets.infood.core.data
 
 import id.sansets.infood.core.data.source.local.CoreLocalDataSource
+import id.sansets.infood.core.data.source.local.entity.FavoriteEntity
 import id.sansets.infood.core.data.source.remote.CoreRemoteDataSource
 import id.sansets.infood.core.data.source.remote.network.ApiResponse
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.domain.repository.ICoreRepository
+import id.sansets.infood.core.util.AppExecutors
 import id.sansets.infood.core.util.DataMapper
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -16,6 +18,7 @@ import javax.inject.Singleton
 class CoreRepository @Inject constructor(
     private val remoteDataSource: CoreRemoteDataSource,
     private val localDataSource: CoreLocalDataSource,
+    private val appExecutors: AppExecutors,
 ) : ICoreRepository {
 
     override fun getFoodCategories(): Flow<Resource<List<FoodCategory>>> =
@@ -47,7 +50,9 @@ class CoreRepository @Inject constructor(
                 when (it) {
                     is ApiResponse.Success -> {
                         Resource.Success(it.data.map { recipeResponse ->
-                            DataMapper.mapRecipeResponseToDomain(recipeResponse)
+                            val isFavorite = localDataSource
+                                .getFavorite(recipeResponse.id).first() != null
+                            DataMapper.mapRecipeResponseToDomain(recipeResponse, isFavorite)
                         })
                     }
                     is ApiResponse.Empty -> {
@@ -59,5 +64,15 @@ class CoreRepository @Inject constructor(
                 }
             })
         }
+    }
+
+    override fun insertFavorite(id: Int) {
+        val favoriteEntity = FavoriteEntity(id = id)
+        appExecutors.diskIO().execute { localDataSource.insertFavorite(favoriteEntity) }
+    }
+
+    override fun deleteFavorite(id: Int) {
+        val favoriteEntity = FavoriteEntity(id = id)
+        appExecutors.diskIO().execute { localDataSource.deleteFavorite(favoriteEntity) }
     }
 }

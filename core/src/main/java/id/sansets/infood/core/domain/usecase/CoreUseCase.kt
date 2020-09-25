@@ -15,4 +15,8 @@ class CoreUseCase @Inject constructor(private val repository: ICoreRepository) :
         type: String?,
         addRecipeInformation: Boolean?
     ): Flow<Resource<List<Recipe>>> = repository.getRecipes(query, type, addRecipeInformation)
+
+    override fun insertFavorite(id: Int) = repository.insertFavorite(id)
+
+    override fun deleteFavorite(id: Int) = repository.deleteFavorite(id)
 }

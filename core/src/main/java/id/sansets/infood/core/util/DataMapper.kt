@@ -29,7 +29,10 @@ object DataMapper {
             )
         }
 
-    fun mapRecipeResponseToDomain(input: RecipeResponse): Recipe {
+    fun mapRecipeResponseToDomain(
+        input: RecipeResponse,
+        isFavorite: Boolean = false,
+    ): Recipe {
         val steps = ArrayList<Step>()
         val ingredients = ArrayList<Ingredient>()
 
@@ -98,7 +101,7 @@ object DataMapper {
             } ?: emptyList(),
             steps = steps,
             ingredients = ingredients,
-            isFavorite = false,
+            isFavorite = isFavorite,
         )
     }
 }

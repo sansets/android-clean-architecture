@@ -14,4 +14,8 @@ interface ICoreRepository {
         type: String?,
         addRecipeInformation: Boolean? = true
     ): Flow<Resource<List<Recipe>>>
+
+    fun insertFavorite(id: Int)
+
+    fun deleteFavorite(id: Int)
 }

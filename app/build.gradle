@@ -60,6 +60,9 @@ dependencies {
     // Network
     implementation networkDependencies.picasso
 
+    // Libraries
+    debugImplementation libraries.databaseBrowser
+
     // Unit Test
     testImplementation testDependencies.junit
 
