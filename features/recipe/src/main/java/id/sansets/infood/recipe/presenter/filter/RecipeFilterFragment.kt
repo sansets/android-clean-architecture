@@ -20,6 +20,8 @@ import id.sansets.infood.core.util.visible
 import id.sansets.infood.recipe.R
 import id.sansets.infood.recipe.databinding.FragmentRecipeFilterBinding
 import id.sansets.infood.recipe.di.DaggerRecipeComponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 /**
@@ -27,6 +29,8 @@ import javax.inject.Inject
  * Use the [RecipeFilterFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 class RecipeFilterFragment : BottomSheetDialogFragment() {
 
     var onFilterApply: ((foodCategories: ArrayList<FoodCategory>) -> Unit)? = null

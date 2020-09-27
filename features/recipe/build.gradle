@@ -38,6 +38,7 @@ dependencies {
     // Module
     implementation project(":app")
     implementation project(":core")
+    implementation project(":libraries:expandable-textview")
 
     // Support
     implementation supportDependencies.coreKtx

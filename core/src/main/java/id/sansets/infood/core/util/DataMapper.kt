@@ -3,8 +3,7 @@ package id.sansets.infood.core.util
 import id.sansets.infood.core.data.source.local.entity.FoodCategoryEntity
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
 import id.sansets.infood.core.data.source.remote.response.RecipeResponse
-import id.sansets.infood.core.domain.model.FoodCategory
-import id.sansets.infood.core.domain.model.Recipe
+import id.sansets.infood.core.domain.model.*
 
 object DataMapper {
 
@@ -30,11 +29,76 @@ object DataMapper {
             )
         }
 
-    fun mapRecipeResponseToDomain(input: RecipeResponse): Recipe = Recipe(
-        id = input.id,
-        title = input.title ?: "",
-        imageUrl = input.imageUrl ?: "",
-        sourceName = input.sourceName ?: "",
-        isFavorite = false,
-    )
+    fun mapRecipeResponseToDomain(input: RecipeResponse): Recipe {
+        val steps = ArrayList<Step>()
+        val ingredients = ArrayList<Ingredient>()
+
+        input.analyzedInstructions?.forEach { instructionResponse ->
+            instructionResponse.steps?.forEach { stepResponse ->
+                steps.add(
+                    Step(
+                        number = stepResponse.number ?: 0,
+                        step = stepResponse.step ?: "",
+                        ingredients = stepResponse.ingredients?.map { ingredientResponse ->
+                            Ingredient(
+                                id = ingredientResponse.id ?: 0,
+                                name = ingredientResponse.name ?: "",
+                                localizedName = ingredientResponse.localizedName ?: "",
+                                image = ingredientResponse.image ?: ""
+                            )
+                        } ?: emptyList()
+                    )
+                )
+            }
+        }
+
+        input.analyzedInstructions?.forEach { instructionResponse ->
+            instructionResponse.steps?.forEach { stepResponse ->
+                stepResponse.ingredients?.forEach { ingredientResponse ->
+                    if (!ingredients.any { it.id == ingredientResponse.id }) {
+                        ingredients.add(
+                            Ingredient(
+                                id = ingredientResponse.id ?: 0,
+                                name = ingredientResponse.name ?: "",
+                                localizedName = ingredientResponse.localizedName ?: "",
+                                image = ingredientResponse.image ?: ""
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        return Recipe(
+            id = input.id,
+            title = input.title ?: "",
+            summary = input.summary ?: "",
+            imageUrl = input.imageUrl ?: "",
+            imageType = input.imageType ?: "",
+            sourceName = input.sourceName ?: "",
+            dishTypes = input.dishTypes ?: emptyList(),
+            analyzedInstructions = input.analyzedInstructions?.map { instructionResponse ->
+                Instruction(
+                    name = instructionResponse.name ?: "",
+                    steps = instructionResponse.steps?.map { stepResponse ->
+                        Step(
+                            number = stepResponse.number ?: 0,
+                            step = stepResponse.step ?: "",
+                            ingredients = stepResponse.ingredients?.map { ingredientResponse ->
+                                Ingredient(
+                                    id = ingredientResponse.id ?: 0,
+                                    name = ingredientResponse.name ?: "",
+                                    localizedName = ingredientResponse.localizedName ?: "",
+                                    image = ingredientResponse.image ?: ""
+                                )
+                            } ?: emptyList()
+                        )
+                    } ?: emptyList()
+                )
+            } ?: emptyList(),
+            steps = steps,
+            ingredients = ingredients,
+            isFavorite = false,
+        )
+    }
 }

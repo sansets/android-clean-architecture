@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import id.sansets.infood.core.di.ViewModelKey
 import id.sansets.infood.core.util.ViewModelFactory
+import id.sansets.infood.recipe.presenter.detail.RecipeDetailViewModel
 import id.sansets.infood.recipe.presenter.filter.RecipeFilterViewModel
 import id.sansets.infood.recipe.presenter.list.RecipeListViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,4 +31,9 @@ abstract class RecipeViewModelModule {
     @IntoMap
     @ViewModelKey(RecipeFilterViewModel::class)
     abstract fun bindRecipeFilterViewModel(recipeFilterViewModel: RecipeFilterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RecipeDetailViewModel::class)
+    abstract fun bindRecipeDetailViewModel(recipeDetailViewModel: RecipeDetailViewModel): ViewModel
 }

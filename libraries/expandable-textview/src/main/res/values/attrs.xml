@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExpandableTextView">
+        <attr name="visibleLines" format="integer" />
+        <attr name="isExpanded" format="boolean" />
+        <attr name="duration" format="integer" />
+        <attr name="foregroundColor" format="color" />
+        <attr name="ellipsizeText" format="string" />
+        <attr name="isUnderlined" format="boolean" />
+        <attr name="ellipsizeTextColor" format="color" />
+    </declare-styleable>
+</resources>

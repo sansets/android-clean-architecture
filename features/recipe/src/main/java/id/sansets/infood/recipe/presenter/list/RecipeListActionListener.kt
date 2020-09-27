@@ -11,7 +11,7 @@ interface RecipeListActionListener {
 
     fun onRemoveFilterFoodCategory(foodCategory: FoodCategory)
 
-    fun onOpenRecipeDetail(recipe: Recipe?)
+    fun onOpenRecipeDetail(recipe: Recipe)
 
     fun onUpdateFavoriteRecipe(favorite: Boolean, recipe: Recipe?)
 }

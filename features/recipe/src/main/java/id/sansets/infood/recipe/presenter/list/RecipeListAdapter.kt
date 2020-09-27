@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import id.sansets.infood.core.domain.model.Recipe
+import id.sansets.infood.core.util.UrlHelper.getCoverUrl
 import id.sansets.infood.recipe.R
 import id.sansets.infood.recipe.databinding.ItemRecipeBinding
 import id.sansets.infood.core.R as coreR
 
 class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>() {
 
-    var onOpenRecipeDetail: ((recipe: Recipe?) -> Unit)? = null
+    var onOpenRecipeDetail: ((recipe: Recipe) -> Unit)? = null
     var onUpdateArchivedRecipe: ((archive: Boolean, recipe: Recipe?) -> Unit)? = null
 
     private val recipes = ArrayList<Recipe>()
@@ -43,13 +44,13 @@ class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewH
         private val binding = ItemRecipeBinding.bind(itemView)
         private var isFavorite = false
 
-        fun onBind(recipe: Recipe?) {
-            isFavorite = recipe?.isFavorite ?: false
+        fun onBind(recipe: Recipe) {
+            isFavorite = recipe.isFavorite
 
             binding.layoutRecipe.setOnClickListener { onOpenRecipeDetail?.invoke(recipe) }
-            binding.imgCover.contentDescription = recipe?.title
-            binding.tvTitle.text = recipe?.title
-            binding.tvAuthor.text = recipe?.sourceName
+            binding.imgCover.contentDescription = recipe.title
+            binding.tvTitle.text = recipe.title
+            binding.tvAuthor.text = recipe.sourceName
             binding.btnFavorite.apply {
                 setIconResource(getArchiveIcon(isFavorite))
                 setIconTintResource(getArchiveIconTint(isFavorite))
@@ -62,7 +63,7 @@ class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewH
             }
 
             Picasso.get()
-                .load(recipe?.imageUrl)
+                .load(getCoverUrl(recipe.id.toString(), recipe.imageType))
                 .placeholder(coreR.drawable.ic_placeholder_food)
                 .error(coreR.drawable.ic_placeholder_food)
                 .into(binding.imgCover)

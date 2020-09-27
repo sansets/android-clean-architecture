@@ -84,7 +84,9 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
     }
 
     override fun onOpenRecipeFilter() {
-        filterDialog.setSelectedFoodCategories(viewModel.filterFoodCategoryList.value ?: ArrayList())
+        filterDialog.setSelectedFoodCategories(
+            viewModel.filterFoodCategoryList.value ?: ArrayList()
+        )
         filterDialog.show(childFragmentManager, RecipeFilterFragment.TAG)
     }
 
@@ -92,8 +94,10 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
         viewModel.removeFoodCategoryFilter(foodCategory)
     }
 
-    override fun onOpenRecipeDetail(recipe: Recipe?) {
-
+    override fun onOpenRecipeDetail(recipe: Recipe) {
+        val action = RecipeListFragmentDirections
+            .actionRecipeListFragmentToRecipeDetailFragment(recipe)
+        findNavController().navigate(action)
     }
 
     override fun onUpdateFavoriteRecipe(favorite: Boolean, recipe: Recipe?) {
