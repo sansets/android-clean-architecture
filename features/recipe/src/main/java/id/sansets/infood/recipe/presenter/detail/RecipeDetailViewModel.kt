@@ -1,8 +1,11 @@
 package id.sansets.infood.recipe.presenter.detail
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import id.sansets.infood.core.domain.model.Ingredient
+import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.domain.model.Step
 import id.sansets.infood.core.domain.usecase.CoreUseCase
 import java.util.*
@@ -10,17 +13,25 @@ import javax.inject.Inject
 
 class RecipeDetailViewModel @Inject constructor(private val useCase: CoreUseCase) : ViewModel() {
 
-    private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite get() = _isFavorite
+    private val _recipe = MutableLiveData<Recipe>()
 
-    fun setFavorite(id: Int, isFavorite: Boolean) {
-        if (isFavorite) {
-            useCase.deleteFavorite(id)
-            _isFavorite.value = false
+    private val _isFavorite = Transformations.switchMap(_recipe) {
+        useCase.isFavorite(it).asLiveData()
+    }
+    val isFavorite = Transformations.map(_isFavorite) { it }
+
+    fun checkFavorite(recipe: Recipe) {
+        _recipe.value = recipe
+    }
+
+    fun setFavorite(recipe: Recipe) {
+        if (isFavorite.value?.data == true) {
+            useCase.deleteFavorite(recipe)
         } else {
-            useCase.insertFavorite(id)
-            _isFavorite.value = true
+            useCase.insertFavorite(recipe)
         }
+
+        _recipe.value = recipe
     }
 
     fun getFormattedSteps(steps: List<Step>): String {

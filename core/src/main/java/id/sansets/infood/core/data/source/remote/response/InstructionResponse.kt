@@ -1,14 +1,12 @@
 package id.sansets.infood.core.data.source.remote.response
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
-@JsonClass(generateAdapter = true)
 data class InstructionResponse(
 
-    @Json(name = "name")
+    @SerializedName(value = "name")
     val name: String?,
 
-    @Json(name = "steps")
+    @SerializedName(value = "steps")
     val steps: List<StepResponse>?
 )

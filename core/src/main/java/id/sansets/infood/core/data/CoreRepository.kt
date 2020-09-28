@@ -1,7 +1,6 @@
 package id.sansets.infood.core.data
 
 import id.sansets.infood.core.data.source.local.CoreLocalDataSource
-import id.sansets.infood.core.data.source.local.entity.FavoriteEntity
 import id.sansets.infood.core.data.source.remote.CoreRemoteDataSource
 import id.sansets.infood.core.data.source.remote.network.ApiResponse
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
@@ -66,13 +65,36 @@ class CoreRepository @Inject constructor(
         }
     }
 
-    override fun insertFavorite(id: Int) {
-        val favoriteEntity = FavoriteEntity(id = id)
-        appExecutors.diskIO().execute { localDataSource.insertFavorite(favoriteEntity) }
+    override fun getFavoriteRecipes(
+        query: String?,
+        type: String?,
+    ): Flow<Resource<List<Recipe>>> {
+        return flow {
+            emitAll(localDataSource.getFavoriteRecipes(query).map {
+                Resource.Success(it.map { recipeEntity ->
+                    DataMapper.mapRecipeEntityToDomain(recipeEntity)
+                })
+            })
+        }
     }
 
-    override fun deleteFavorite(id: Int) {
-        val favoriteEntity = FavoriteEntity(id = id)
-        appExecutors.diskIO().execute { localDataSource.deleteFavorite(favoriteEntity) }
+    override fun isFavorite(recipe: Recipe): Flow<Resource<Boolean>> {
+        return flow {
+            emitAll(localDataSource.getFavorite(recipe.id).map {
+                Resource.Success(it != null)
+            })
+        }
+    }
+
+    override fun insertFavorite(recipe: Recipe) {
+        appExecutors.diskIO().execute {
+            localDataSource.insertFavorite(DataMapper.mapRecipeDomainToEntity(recipe))
+        }
+    }
+
+    override fun deleteFavorite(recipe: Recipe) {
+        appExecutors.diskIO().execute {
+            localDataSource.deleteFavorite(DataMapper.mapRecipeDomainToEntity(recipe))
+        }
     }
 }

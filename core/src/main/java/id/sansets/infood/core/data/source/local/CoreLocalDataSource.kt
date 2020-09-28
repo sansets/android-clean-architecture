@@ -1,8 +1,9 @@
 package id.sansets.infood.core.data.source.local
 
-import id.sansets.infood.core.data.source.local.entity.FavoriteEntity
+import androidx.sqlite.db.SimpleSQLiteQuery
+import id.sansets.infood.core.data.source.local.entity.RecipeEntity
 import id.sansets.infood.core.data.source.local.entity.FoodCategoryEntity
-import id.sansets.infood.core.data.source.local.room.FavoriteDao
+import id.sansets.infood.core.data.source.local.room.RecipeDao
 import id.sansets.infood.core.data.source.local.room.FoodCategoryDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class CoreLocalDataSource @Inject constructor(
     private val foodCategoryDao: FoodCategoryDao,
-    private val favoriteDao: FavoriteDao,
+    private val recipeDao: RecipeDao,
 ) {
 
     fun getFoodCategories(): Flow<List<FoodCategoryEntity>> = foodCategoryDao.getFoodCategories()
@@ -19,9 +20,19 @@ class CoreLocalDataSource @Inject constructor(
     suspend fun insertFoodCategories(foodCategories: List<FoodCategoryEntity>) =
         foodCategoryDao.insertFoodCategories(foodCategories)
 
-    fun getFavorite(id: Int): Flow<FavoriteEntity?> = favoriteDao.getFavorite(id)
+    fun getFavoriteRecipes(title: String? = null): Flow<List<RecipeEntity>> {
+        val query = if (title.isNullOrEmpty()) {
+            "SELECT * FROM ${RecipeEntity.TABLE_NAME}"
+        } else {
+            "SELECT * FROM ${RecipeEntity.TABLE_NAME} WHERE ${RecipeEntity.COLUMN_TITLE} LIKE '%$title%'"
+        }
 
-    fun insertFavorite(favorite: FavoriteEntity) = favoriteDao.insertFavorite(favorite)
+        return recipeDao.getRecipes(SimpleSQLiteQuery(query))
+    }
 
-    fun deleteFavorite(favorite: FavoriteEntity) = favoriteDao.deleteFavorite(favorite)
+    fun getFavorite(id: Int): Flow<RecipeEntity?> = recipeDao.getRecipe(id)
+
+    fun insertFavorite(recipe: RecipeEntity) = recipeDao.insertRecipe(recipe)
+
+    fun deleteFavorite(recipe: RecipeEntity) = recipeDao.deleteRecipe(recipe)
 }

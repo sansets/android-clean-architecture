@@ -1,32 +1,30 @@
 package id.sansets.infood.core.data.source.remote.response
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
-@JsonClass(generateAdapter = true)
 data class RecipeResponse(
 
-    @Json(name = "id")
+    @SerializedName(value = "id")
     val id: Int,
 
-    @Json(name = "title")
+    @SerializedName(value = "title")
     val title: String?,
 
-    @Json(name = "summary")
+    @SerializedName(value = "summary")
     val summary: String?,
 
-    @Json(name = "image")
+    @SerializedName(value = "image")
     val imageUrl: String?,
 
-    @Json(name = "imageType")
+    @SerializedName(value = "imageType")
     val imageType: String?,
 
-    @Json(name = "sourceName")
+    @SerializedName(value = "sourceName")
     val sourceName: String?,
 
-    @Json(name = "dishTypes")
+    @SerializedName(value = "dishTypes")
     val dishTypes: List<String>?,
 
-    @Json(name = "analyzedInstructions")
+    @SerializedName(value = "analyzedInstructions")
     val analyzedInstructions: List<InstructionResponse>?
 )

@@ -16,6 +16,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import id.sansets.infood.InFoodApplication
+import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.util.UrlHelper.getBackdropUrl
 import id.sansets.infood.core.util.autoCleared
@@ -79,10 +80,7 @@ class RecipeDetailFragment : Fragment() {
         binding.toolbar.menu[0].setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_favorite -> {
-                    viewModel.setFavorite(
-                        id = args.StringArgumentRecipe?.id ?: 0,
-                        isFavorite = viewModel.isFavorite.value ?: false
-                    )
+                    args.StringArgumentRecipe?.let { recipe -> viewModel.setFavorite(recipe) }
                 }
             }
             return@setOnMenuItemClickListener true
@@ -95,14 +93,24 @@ class RecipeDetailFragment : Fragment() {
 
     private fun initObserver() {
         viewModel.isFavorite.observe(viewLifecycleOwner, {
-            setFavoriteIcon(it)
+            when (it) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    setFavoriteIcon(it.data ?: false)
+                }
+                is Resource.Error -> {
+                    setFavoriteIcon(it.data ?: false)
+                }
+            }
         })
     }
 
     private fun initData() {
         args.StringArgumentRecipe?.let {
             showData(it)
-            setFavoriteIcon(it.isFavorite)
+            viewModel.checkFavorite(it)
         }
     }
 
