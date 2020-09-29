@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Picasso
 import id.sansets.infood.InFoodApplication
+import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.util.UrlHelper.getBackdropUrl
 import id.sansets.infood.core.util.autoCleared
@@ -62,6 +65,7 @@ class RecipeDetailFragment : Fragment() {
 
         setAppBarScrollListener()
         initView()
+        initObserver()
         initData()
     }
 
@@ -72,13 +76,42 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun initView() {
+        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.toolbar.menu[0].setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_favorite -> {
+                    args.StringArgumentRecipe?.let { recipe -> viewModel.setFavorite(recipe) }
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
+
         binding.tvSummary.setOnClickListener {
             binding.tvSummary.toggle()
         }
     }
 
+    private fun initObserver() {
+        viewModel.isFavorite.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    setFavoriteIcon(it.data ?: false)
+                }
+                is Resource.Error -> {
+                    setFavoriteIcon(it.data ?: false)
+                }
+            }
+        })
+    }
+
     private fun initData() {
-        args.StringArgumentRecipe?.let { showData(it) }
+        args.StringArgumentRecipe?.let {
+            showData(it)
+            viewModel.checkFavorite(it)
+        }
     }
 
     private fun showData(recipe: Recipe) {
@@ -124,6 +157,25 @@ class RecipeDetailFragment : Fragment() {
                 )
             }
         })
+    }
+
+    private fun setFavoriteIcon(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.toolbar.menu?.get(0)?.icon =
+                requireContext().getDrawable(coreR.drawable.ic_baseline_favorite_24)?.apply {
+                    setTint(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            coreR.color.colorPrimary
+                        )
+                    )
+                }
+        } else {
+            binding.toolbar.menu?.get(0)?.icon =
+                requireContext().getDrawable(coreR.drawable.ic_outline_favorite_24)?.apply {
+                    setTint(ContextCompat.getColor(requireContext(), android.R.color.black))
+                }
+        }
     }
 
     private fun setDishTypesChip(dishTypes: List<String>) {

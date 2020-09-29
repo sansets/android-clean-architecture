@@ -38,6 +38,7 @@
                 android:id="@+id/toolbar"
                 style="@style/Toolbar.Default"
                 app:layout_collapseMode="pin"
+                app:menu="@menu/recipe_detail_menu"
                 app:navigationIcon="@drawable/ic_baseline_arrow_left_24"
                 app:title="" />
 

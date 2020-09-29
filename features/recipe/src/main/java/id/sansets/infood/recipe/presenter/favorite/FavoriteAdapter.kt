@@ -1,4 +1,4 @@
-package id.sansets.infood.recipe.presenter.list
+package id.sansets.infood.recipe.presenter.favorite
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +11,21 @@ import id.sansets.infood.recipe.R
 import id.sansets.infood.recipe.databinding.ItemRecipeBinding
 import id.sansets.infood.core.R as coreR
 
-class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>() {
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     var onOpenRecipeDetail: ((recipe: Recipe) -> Unit)? = null
     var onUpdateArchivedRecipe: ((archive: Boolean, recipe: Recipe) -> Unit)? = null
 
     private val recipes = ArrayList<Recipe>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder =
-        RecipeListViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
+        FavoriteViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_recipe, parent, false)
         )
 
     override fun getItemCount(): Int = recipes.size
 
-    override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) =
         holder.onBind(recipes[position])
 
     fun setRecipeList(recipes: List<Recipe>?) {
@@ -39,7 +39,7 @@ class RecipeListAdapter : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewH
         notifyDataSetChanged()
     }
 
-    inner class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = ItemRecipeBinding.bind(itemView)
         private var isFavorite = false

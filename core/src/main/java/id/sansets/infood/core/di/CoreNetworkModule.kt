@@ -10,7 +10,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 @Module
@@ -48,7 +48,7 @@ class CoreNetworkModule {
     fun provideCoreApiService(client: OkHttpClient): CoreApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL_API)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
         return retrofit.create(CoreApiService::class.java)

@@ -1,9 +1,9 @@
-package id.sansets.infood.recipe.presenter.list
+package id.sansets.infood.recipe.presenter.favorite
 
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
 
-interface RecipeListActionListener {
+interface FavoriteActionListener {
 
     fun onRefreshRecipes()
 

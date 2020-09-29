@@ -1,14 +1,38 @@
 package id.sansets.infood.recipe.presenter.detail
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import id.sansets.infood.core.domain.model.Ingredient
+import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.domain.model.Step
 import id.sansets.infood.core.domain.usecase.CoreUseCase
-import java.lang.StringBuilder
 import java.util.*
 import javax.inject.Inject
 
-class RecipeDetailViewModel @Inject constructor(useCase: CoreUseCase) : ViewModel() {
+class RecipeDetailViewModel @Inject constructor(private val useCase: CoreUseCase) : ViewModel() {
+
+    private val _recipe = MutableLiveData<Recipe>()
+
+    private val _isFavorite = Transformations.switchMap(_recipe) {
+        useCase.isFavorite(it).asLiveData()
+    }
+    val isFavorite = Transformations.map(_isFavorite) { it }
+
+    fun checkFavorite(recipe: Recipe) {
+        _recipe.value = recipe
+    }
+
+    fun setFavorite(recipe: Recipe) {
+        if (isFavorite.value?.data == true) {
+            useCase.deleteFavorite(recipe)
+        } else {
+            useCase.insertFavorite(recipe)
+        }
+
+        _recipe.value = recipe
+    }
 
     fun getFormattedSteps(steps: List<Step>): String {
         val stringBuilder = StringBuilder()

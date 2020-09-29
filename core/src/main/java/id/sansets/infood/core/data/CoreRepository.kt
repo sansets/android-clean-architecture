@@ -7,8 +7,10 @@ import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.domain.repository.ICoreRepository
+import id.sansets.infood.core.util.AppExecutors
 import id.sansets.infood.core.util.DataMapper
 import kotlinx.coroutines.flow.*
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,6 +18,7 @@ import javax.inject.Singleton
 class CoreRepository @Inject constructor(
     private val remoteDataSource: CoreRemoteDataSource,
     private val localDataSource: CoreLocalDataSource,
+    private val appExecutors: AppExecutors,
 ) : ICoreRepository {
 
     override fun getFoodCategories(): Flow<Resource<List<FoodCategory>>> =
@@ -38,16 +41,21 @@ class CoreRepository @Inject constructor(
 
     override fun getRecipes(
         query: String?,
-        type: String?,
+        foodCategories: List<FoodCategory>?,
         addRecipeInformation: Boolean?
     ): Flow<Resource<List<Recipe>>> {
         return flow {
             emit(Resource.Loading())
-            emitAll(remoteDataSource.getRecipes(query = query, type = type).map {
+            emitAll(remoteDataSource.getRecipes(
+                query = query,
+                type = foodCategories?.map { it.title }?.joinToString()
+            ).map {
                 when (it) {
                     is ApiResponse.Success -> {
                         Resource.Success(it.data.map { recipeResponse ->
-                            DataMapper.mapRecipeResponseToDomain(recipeResponse)
+                            val isFavorite = localDataSource
+                                .getFavorite(recipeResponse.id).first() != null
+                            DataMapper.mapRecipeResponseToDomain(recipeResponse, isFavorite)
                         })
                     }
                     is ApiResponse.Empty -> {
@@ -58,6 +66,53 @@ class CoreRepository @Inject constructor(
                     }
                 }
             })
+        }
+    }
+
+    override fun getFavoriteRecipes(
+        query: String?,
+        foodCategories: List<FoodCategory>?,
+    ): Flow<Resource<List<Recipe>>> {
+        return flow {
+            emitAll(localDataSource.getFavoriteRecipes(query).map {
+                val foodCategoriesString = foodCategories?.map { foodCategory ->
+                    foodCategory.title?.toLowerCase(Locale.getDefault())
+                }
+
+                val results = if (!foodCategoriesString.isNullOrEmpty()) {
+                    it.filter { recipeEntity ->
+                        recipeEntity.dishTypes?.map { dishType ->
+                            dishType.toLowerCase(Locale.getDefault())
+                        }?.any(foodCategoriesString::contains) == true
+                    }
+                } else {
+                    it
+                }
+
+                Resource.Success(results.map { recipeEntity ->
+                    DataMapper.mapRecipeEntityToDomain(recipeEntity)
+                })
+            })
+        }
+    }
+
+    override fun isFavorite(recipe: Recipe): Flow<Resource<Boolean>> {
+        return flow {
+            emitAll(localDataSource.getFavorite(recipe.id).map {
+                Resource.Success(it != null)
+            })
+        }
+    }
+
+    override fun insertFavorite(recipe: Recipe) {
+        appExecutors.diskIO().execute {
+            localDataSource.insertFavorite(DataMapper.mapRecipeDomainToEntity(recipe))
+        }
+    }
+
+    override fun deleteFavorite(recipe: Recipe) {
+        appExecutors.diskIO().execute {
+            localDataSource.deleteFavorite(DataMapper.mapRecipeDomainToEntity(recipe))
         }
     }
 }

@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import id.sansets.infood.InFoodApplication
+import id.sansets.infood.core.R as coreR
 import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
@@ -26,7 +27,6 @@ import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
-import id.sansets.infood.core.R as coreR
 
 /**
  * A simple [Fragment] subclass.
@@ -100,8 +100,8 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
         findNavController().navigate(action)
     }
 
-    override fun onUpdateFavoriteRecipe(favorite: Boolean, recipe: Recipe?) {
-
+    override fun onUpdateFavoriteRecipe(favorite: Boolean, recipe: Recipe) {
+        viewModel.setFavorite(recipe, favorite)
     }
 
     private fun initDependencyInjection() {
@@ -142,10 +142,7 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
 
         viewModel.filterFoodCategoryList.observe(viewLifecycleOwner, {
             recipeSectionAdapter.setFilterFoodCategories(it)
-            viewModel.getRecipes(
-                binding.searchView.query.toString(),
-                it.map { foodCategory -> foodCategory.title }.joinToString()
-            )
+            viewModel.getRecipes(binding.searchView.query.toString(), it)
         })
     }
 

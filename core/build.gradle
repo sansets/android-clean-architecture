@@ -67,15 +67,14 @@ dependencies {
 
     // Network
     implementation networkDependencies.retrofit
-    implementation networkDependencies.retrofitConverterMoshi
+    implementation networkDependencies.retrofitConverterGson
     implementation networkDependencies.okHttp
     implementation networkDependencies.okHttpLogginInterceptor
-    implementation networkDependencies.moshi
-    kapt networkDependencies.moshiKotlinCodegen
     debugImplementation networkDependencies.chuckerDebug
     releaseImplementation networkDependencies.chuckerRelease
 
     // Libraries
+    implementation libraries.gson
     implementation libraries.shimmer
 
     // Unit Test

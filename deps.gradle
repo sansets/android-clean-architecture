@@ -10,7 +10,6 @@ ext {
     roomVersion = '2.2.5'
     retrofitVersion = '2.9.0'
     okHttpVersion = '4.8.1'
-    moshiVersion = '1.9.3'
     chuckerVersion = '3.2.0'
     daggerVersion = '2.27'
 
@@ -77,9 +76,7 @@ ext {
 
     networkDependencies = [
             retrofit               : "com.squareup.retrofit2:retrofit:$retrofitVersion",
-            retrofitConverterMoshi : "com.squareup.retrofit2:converter-moshi:$retrofitVersion",
-            moshi                  : "com.squareup.moshi:moshi:$moshiVersion",
-            moshiKotlinCodegen     : "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion",
+            retrofitConverterGson  : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
             picasso                : 'com.squareup.picasso:picasso:2.71828',
             okHttp                 : "com.squareup.okhttp3:okhttp:$okHttpVersion",
             okHttpLogginInterceptor: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
@@ -88,6 +85,7 @@ ext {
     ]
 
     libraries = [
+            gson           : "com.google.code.gson:gson:2.8.6",
             databaseBrowser: 'com.amitshekhar.android:debug-db:1.0.6',
             shimmer        : 'com.facebook.shimmer:shimmer:0.5.0',
     ]
