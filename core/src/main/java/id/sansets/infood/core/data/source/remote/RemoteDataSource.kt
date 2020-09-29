@@ -13,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoreRemoteDataSource @Inject constructor(private val apiService: CoreApiService) {
+class RemoteDataSource @Inject constructor(private val apiService: CoreApiService) {
 
     suspend fun getFoodCategories(): Flow<ApiResponse<List<FoodCategoryResponse>>> {
         return flow {

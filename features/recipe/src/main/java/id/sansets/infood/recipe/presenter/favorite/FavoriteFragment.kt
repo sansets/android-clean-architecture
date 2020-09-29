@@ -18,7 +18,9 @@ import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
 import id.sansets.infood.core.util.autoCleared
+import id.sansets.infood.core.util.gone
 import id.sansets.infood.core.util.setAppBarElevationListener
+import id.sansets.infood.core.util.visible
 import id.sansets.infood.recipe.databinding.FragmentFavoriteBinding
 import id.sansets.infood.recipe.di.DaggerRecipeComponent
 import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
@@ -129,6 +131,8 @@ class FavoriteFragment : Fragment(), FavoriteActionListener {
                     binding.swipeRefresh.isRefreshing = true
                 }
                 is Resource.Success -> {
+                    viewModel.checkFavoriteListEmpty(it.data)
+
                     binding.swipeRefresh.isRefreshing = false
                     recipeSectionAdapter.setRecipeList(it.data)
                 }
@@ -142,20 +146,34 @@ class FavoriteFragment : Fragment(), FavoriteActionListener {
             recipeSectionAdapter.setFilterFoodCategories(it)
             viewModel.getRecipes(binding.searchView.query.toString(), it)
         })
+
+        viewModel.emptyFavoriteList.observe(viewLifecycleOwner, {
+            when (it) {
+                true -> {
+                    binding.svRecipes.gone()
+                    binding.layoutEmpty.visible()
+                }
+                false -> {
+                    binding.svRecipes.visible()
+                    binding.layoutEmpty.gone()
+                }
+            }
+        })
+
+        viewModel.emptySearchResult.observe(viewLifecycleOwner, {
+            recipeSectionAdapter.showRecipeListEmptyMessage(it)
+        })
     }
 
     private fun SearchView.onQueryTextListener(): SearchView.OnQueryTextListener {
         return object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.getRecipes(query, viewModel.query.value?.filterFoodCategories)
                 clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    viewModel.getRecipes(newText, viewModel.query.value?.filterFoodCategories)
-                }
+                viewModel.getRecipes(newText, viewModel.query.value?.filterFoodCategories)
                 return true
             }
         }

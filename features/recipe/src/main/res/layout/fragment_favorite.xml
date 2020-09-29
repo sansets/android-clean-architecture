@@ -59,19 +59,63 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/sv_recipes"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_recipes"
+            <LinearLayout
+                android:id="@+id/layout_empty"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </androidx.core.widget.NestedScrollView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="128dp"
+                    android:contentDescription="@string/message_empty_favorite_recipes"
+                    android:src="@drawable/ic_empty" />
+
+                <TextView
+                    style="@style/TextView.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="32dp"
+                    android:gravity="center"
+                    android:text="@string/message_empty_favorite_recipes" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="48dp"
+                    android:gravity="center"
+                    android:text="@string/message_tap_love_icon_to_favorite" />
+
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/sv_recipes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recipes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

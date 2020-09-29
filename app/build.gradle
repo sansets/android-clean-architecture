@@ -58,7 +58,8 @@ dependencies {
     kapt injectionDependencies.daggerCompiler
 
     // Network
-    implementation networkDependencies.picasso
+    implementation networkDependencies.glide
+    kapt networkDependencies.glideCompiler
 
     // Libraries
     debugImplementation libraries.databaseBrowser

@@ -81,6 +81,10 @@ class FavoriteSectionAdapter(
 
         notifyItemChanged(1)
     }
+
+    fun showRecipeListEmptyMessage(show: Boolean) {
+        this.showRecipesEmptyMessage = show
+    }
 }
 
 class FoodCategoryViewHolder(

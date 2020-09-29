@@ -70,6 +70,8 @@ dependencies {
     implementation networkDependencies.retrofitConverterGson
     implementation networkDependencies.okHttp
     implementation networkDependencies.okHttpLogginInterceptor
+    implementation networkDependencies.glide
+    kapt networkDependencies.glideCompiler
     debugImplementation networkDependencies.chuckerDebug
     releaseImplementation networkDependencies.chuckerRelease
 

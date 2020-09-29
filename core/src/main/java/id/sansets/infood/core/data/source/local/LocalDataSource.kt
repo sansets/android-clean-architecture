@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoreLocalDataSource @Inject constructor(
+class LocalDataSource @Inject constructor(
     private val foodCategoryDao: FoodCategoryDao,
     private val recipeDao: RecipeDao,
 ) {
