@@ -14,12 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
-import com.squareup.picasso.Picasso
 import id.sansets.infood.InFoodApplication
 import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.Recipe
-import id.sansets.infood.core.util.UrlHelper.getBackdropUrl
+import id.sansets.infood.core.util.UrlHelper
 import id.sansets.infood.core.util.autoCleared
+import id.sansets.infood.core.util.loadRecipeImage
 import id.sansets.infood.core.util.setTextFromHtml
 import id.sansets.infood.recipe.R
 import id.sansets.infood.recipe.databinding.FragmentRecipeDetailBinding
@@ -119,14 +119,14 @@ class RecipeDetailFragment : Fragment() {
         binding.tvSummary.setTextFromHtml(recipe.summary)
         binding.tvIngredients.text = viewModel.getFormattedIngredients(recipe.ingredients)
         binding.tvSteps.text = viewModel.getFormattedSteps(recipe.steps)
+        binding.imgBackdrop.loadRecipeImage(
+            UrlHelper.getBackdropUrl(
+                id = recipe.id.toString(),
+                imageType = recipe.imageType
+            )
+        )
 
         setDishTypesChip(recipe.dishTypes)
-
-        Picasso.get()
-            .load(getBackdropUrl(recipe.id.toString(), recipe.imageType))
-            .placeholder(coreR.drawable.ic_placeholder_food)
-            .error(coreR.drawable.ic_placeholder_food)
-            .into(binding.imgBackdrop)
 
         if (recipe.ingredients.isNullOrEmpty()) {
             binding.tvHintIngredients.visibility = View.GONE
@@ -162,19 +162,21 @@ class RecipeDetailFragment : Fragment() {
     private fun setFavoriteIcon(isFavorite: Boolean) {
         if (isFavorite) {
             binding.toolbar.menu?.get(0)?.icon =
-                requireContext().getDrawable(coreR.drawable.ic_baseline_favorite_24)?.apply {
-                    setTint(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            coreR.color.colorPrimary
+                ContextCompat
+                    .getDrawable(requireContext(), coreR.drawable.ic_baseline_favorite_24)?.apply {
+                        setTint(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                coreR.color.colorPrimary
+                            )
                         )
-                    )
-                }
+                    }
         } else {
             binding.toolbar.menu?.get(0)?.icon =
-                requireContext().getDrawable(coreR.drawable.ic_outline_favorite_24)?.apply {
-                    setTint(ContextCompat.getColor(requireContext(), android.R.color.black))
-                }
+                ContextCompat
+                    .getDrawable(requireContext(), coreR.drawable.ic_outline_favorite_24)?.apply {
+                        setTint(ContextCompat.getColor(requireContext(), android.R.color.black))
+                    }
         }
     }
 

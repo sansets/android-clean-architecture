@@ -24,6 +24,12 @@ class FavoriteViewModel @Inject constructor(private val useCase: CoreUseCase) : 
     private val _filterFoodCategoryList = MutableLiveData<ArrayList<FoodCategory>>()
     val filterFoodCategoryList = Transformations.map(_filterFoodCategoryList) { it }
 
+    private val _emptyFavoriteList = MutableLiveData<Boolean>()
+    val emptyFavoriteList = Transformations.map(_emptyFavoriteList) { it }
+
+    private val _emptySearchResult = MutableLiveData<Boolean>()
+    val emptySearchResult = Transformations.map(_emptySearchResult) { it }
+
     fun getRecipes(query: String? = "", filterFoodCategories: List<FoodCategory>? = emptyList()) {
         _query.postValue(
             FavoriteModel(
@@ -49,6 +55,18 @@ class FavoriteViewModel @Inject constructor(private val useCase: CoreUseCase) : 
             useCase.deleteFavorite(recipe)
         } else {
             useCase.insertFavorite(recipe)
+        }
+    }
+
+    fun checkFavoriteListEmpty(recipes: List<Recipe>?) {
+        if (!_query.value?.query.isNullOrEmpty()
+            || !_query.value?.filterFoodCategories.isNullOrEmpty()
+        ) {
+            _emptyFavoriteList.postValue(false)
+            _emptySearchResult.postValue(recipes.isNullOrEmpty())
+        } else {
+            _emptyFavoriteList.postValue(recipes.isNullOrEmpty())
+            _emptySearchResult.postValue(false)
         }
     }
 }

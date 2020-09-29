@@ -1,7 +1,7 @@
 package id.sansets.infood.core.data
 
-import id.sansets.infood.core.data.source.local.CoreLocalDataSource
-import id.sansets.infood.core.data.source.remote.CoreRemoteDataSource
+import id.sansets.infood.core.data.source.local.LocalDataSource
+import id.sansets.infood.core.data.source.remote.RemoteDataSource
 import id.sansets.infood.core.data.source.remote.network.ApiResponse
 import id.sansets.infood.core.data.source.remote.response.FoodCategoryResponse
 import id.sansets.infood.core.domain.model.FoodCategory
@@ -15,9 +15,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoreRepository @Inject constructor(
-    private val remoteDataSource: CoreRemoteDataSource,
-    private val localDataSource: CoreLocalDataSource,
+class InFoodRepository @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors,
 ) : ICoreRepository {
 

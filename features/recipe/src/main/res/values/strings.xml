@@ -7,4 +7,6 @@
     <string name="hint_instructions">Instructions</string>
 
     <string name="message_recipe_not_found">Recipe not found</string>
+    <string name="message_empty_favorite_recipes">Empty favorite</string>
+    <string name="message_tap_love_icon_to_favorite">There is no favorite food recipe yet</string>
 </resources>

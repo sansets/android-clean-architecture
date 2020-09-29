@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import id.sansets.infood.core.domain.model.Recipe
-import id.sansets.infood.core.util.UrlHelper.getCoverUrl
+import id.sansets.infood.core.util.UrlHelper
+import id.sansets.infood.core.util.loadRecipeImage
 import id.sansets.infood.recipe.R
 import id.sansets.infood.recipe.databinding.ItemRecipeBinding
 import id.sansets.infood.core.R as coreR
@@ -48,6 +48,12 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>
             isFavorite = recipe.isFavorite
 
             binding.layoutRecipe.setOnClickListener { onOpenRecipeDetail?.invoke(recipe) }
+            binding.imgCover.loadRecipeImage(
+                UrlHelper.getThumbnailUrl(
+                    id = recipe.id.toString(),
+                    imageType = recipe.imageType
+                )
+            )
             binding.imgCover.contentDescription = recipe.title
             binding.tvTitle.text = recipe.title
             binding.tvAuthor.text = recipe.sourceName
@@ -61,12 +67,6 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>
                     setIconTintResource(getArchiveIconTint(isFavorite))
                 }
             }
-
-            Picasso.get()
-                .load(getCoverUrl(recipe.id.toString(), recipe.imageType))
-                .placeholder(coreR.drawable.ic_placeholder_food)
-                .error(coreR.drawable.ic_placeholder_food)
-                .into(binding.imgCover)
         }
 
         private fun getArchiveIcon(isFavorite: Boolean): Int {

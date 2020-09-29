@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -75,6 +76,19 @@ class HomeFragment : Fragment(), HomeActionListener {
         binding.rvHome.apply {
             adapter = homeSectionAdapter
             setAppBarElevationListener(binding.appBar)
+        }
+        binding.searchView
+            .findViewById<EditText>(androidx.appcompat.R.id.search_src_text).apply {
+                isFocusableInTouchMode = false
+
+                setOnClickListener {
+                    val action = HomeFragmentDirections.actionHomeFragmentToRecipeListFragment()
+                    findNavController().navigate(action)
+                }
+            }
+        binding.cardSearch.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToRecipeListFragment()
+            findNavController().navigate(action)
         }
     }
 

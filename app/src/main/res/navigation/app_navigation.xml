@@ -13,7 +13,9 @@
 
         <action
             android:id="@+id/action_home_fragment_to_recipe_list_fragment"
-            app:destination="@id/navigation_recipe_list" />
+            app:destination="@id/navigation_recipe_list"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit" />
 
     </fragment>
 
@@ -25,7 +27,9 @@
 
         <action
             android:id="@+id/action_favorite_fragment_to_recipe_detail_fragment"
-            app:destination="@id/navigation_recipe_detail" />
+            app:destination="@id/navigation_recipe_detail"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit" />
 
         <argument
             android:name="@string/argument_food_category"
@@ -43,7 +47,9 @@
 
         <action
             android:id="@+id/action_recipe_list_fragment_to_recipe_detail_fragment"
-            app:destination="@id/navigation_recipe_detail" />
+            app:destination="@id/navigation_recipe_detail"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit" />
 
         <argument
             android:name="@string/argument_food_category"

@@ -3,5 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/btn_food_category"
     style="@style/Button.TextButton.Category"
-    android:drawableTop="@drawable/ic_placeholder_circle"
+    tools:drawableTop="@drawable/ic_placeholder_circle"
     tools:text="Dessert" />

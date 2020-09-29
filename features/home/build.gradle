@@ -40,6 +40,7 @@ dependencies {
     implementation project(":core")
 
     // Support
+    implementation supportDependencies.appcompat
     implementation supportDependencies.coreKtx
     implementation supportDependencies.fragmentKtx
     implementation supportDependencies.material
@@ -49,7 +50,8 @@ dependencies {
     kapt injectionDependencies.daggerCompiler
 
     // Network
-    implementation networkDependencies.picasso
+    implementation networkDependencies.glide
+    kapt networkDependencies.glideCompiler
 
     // Unit Test
     testImplementation testDependencies.junit
