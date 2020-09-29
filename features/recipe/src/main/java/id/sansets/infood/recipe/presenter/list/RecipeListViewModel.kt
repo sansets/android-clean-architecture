@@ -24,7 +24,7 @@ class RecipeListViewModel @Inject constructor(private val useCase: CoreUseCase) 
     private val _filterFoodCategoryList = MutableLiveData<ArrayList<FoodCategory>>()
     val filterFoodCategoryList = Transformations.map(_filterFoodCategoryList) { it }
 
-    fun getRecipes(query: String?, filterFoodCategories: String?) {
+    fun getRecipes(query: String?, filterFoodCategories: List<FoodCategory>?) {
         _query.postValue(
             RecipeListModel(
                 query = query,

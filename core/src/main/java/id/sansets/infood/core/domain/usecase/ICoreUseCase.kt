@@ -11,13 +11,13 @@ interface ICoreUseCase {
 
     fun getRecipes(
         query: String?,
-        type: String?,
+        foodCategories: List<FoodCategory>?,
         addRecipeInformation: Boolean? = true
     ): Flow<Resource<List<Recipe>>>
 
     fun getFavoriteRecipes(
         query: String?,
-        type: String?,
+        foodCategories: List<FoodCategory>?,
     ): Flow<Resource<List<Recipe>>>
 
     fun isFavorite(recipe: Recipe): Flow<Resource<Boolean>>

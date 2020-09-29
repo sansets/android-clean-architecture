@@ -24,7 +24,9 @@ class CoreLocalDataSource @Inject constructor(
         val query = if (title.isNullOrEmpty()) {
             "SELECT * FROM ${RecipeEntity.TABLE_NAME}"
         } else {
-            "SELECT * FROM ${RecipeEntity.TABLE_NAME} WHERE ${RecipeEntity.COLUMN_TITLE} LIKE '%$title%'"
+            "SELECT * FROM ${RecipeEntity.TABLE_NAME} " +
+                    "WHERE ${RecipeEntity.COLUMN_TITLE} " +
+                    "LIKE '%${title.replace("'", "")}%'"
         }
 
         return recipeDao.getRecipes(SimpleSQLiteQuery(query))

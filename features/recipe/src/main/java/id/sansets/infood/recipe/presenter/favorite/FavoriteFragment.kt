@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import id.sansets.infood.InFoodApplication
-import id.sansets.infood.core.R as coreR
 import id.sansets.infood.core.data.Resource
 import id.sansets.infood.core.domain.model.FoodCategory
 import id.sansets.infood.core.domain.model.Recipe
@@ -23,10 +22,10 @@ import id.sansets.infood.core.util.setAppBarElevationListener
 import id.sansets.infood.recipe.databinding.FragmentFavoriteBinding
 import id.sansets.infood.recipe.di.DaggerRecipeComponent
 import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
-import id.sansets.infood.recipe.presenter.list.RecipeListFragmentDirections
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
+import id.sansets.infood.core.R as coreR
 
 /**
  * A simple [Fragment] subclass.
@@ -94,8 +93,8 @@ class FavoriteFragment : Fragment(), FavoriteActionListener {
     }
 
     override fun onOpenRecipeDetail(recipe: Recipe) {
-        val action = RecipeListFragmentDirections
-            .actionRecipeListFragmentToRecipeDetailFragment(recipe)
+        val action = FavoriteFragmentDirections
+            .actionFavoriteFragmentToRecipeDetailFragment(recipe)
         findNavController().navigate(action)
     }
 
@@ -141,10 +140,7 @@ class FavoriteFragment : Fragment(), FavoriteActionListener {
 
         viewModel.filterFoodCategoryList.observe(viewLifecycleOwner, {
             recipeSectionAdapter.setFilterFoodCategories(it)
-            viewModel.getRecipes(
-                binding.searchView.query.toString(),
-                it.map { foodCategory -> foodCategory.title }.joinToString()
-            )
+            viewModel.getRecipes(binding.searchView.query.toString(), it)
         })
     }
 

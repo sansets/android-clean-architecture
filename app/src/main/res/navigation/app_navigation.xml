@@ -21,7 +21,19 @@
         android:id="@+id/navigation_favorite"
         android:name="id.sansets.infood.recipe.presenter.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite">
+
+        <action
+            android:id="@+id/action_favorite_fragment_to_recipe_detail_fragment"
+            app:destination="@id/navigation_recipe_detail" />
+
+        <argument
+            android:name="@string/argument_food_category"
+            android:defaultValue="@null"
+            app:argType="id.sansets.infood.core.domain.model.ListFoodCategory"
+            app:nullable="true" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_recipe_list"

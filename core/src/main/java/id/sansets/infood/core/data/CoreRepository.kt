@@ -10,6 +10,7 @@ import id.sansets.infood.core.domain.repository.ICoreRepository
 import id.sansets.infood.core.util.AppExecutors
 import id.sansets.infood.core.util.DataMapper
 import kotlinx.coroutines.flow.*
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,12 +41,15 @@ class CoreRepository @Inject constructor(
 
     override fun getRecipes(
         query: String?,
-        type: String?,
+        foodCategories: List<FoodCategory>?,
         addRecipeInformation: Boolean?
     ): Flow<Resource<List<Recipe>>> {
         return flow {
             emit(Resource.Loading())
-            emitAll(remoteDataSource.getRecipes(query = query, type = type).map {
+            emitAll(remoteDataSource.getRecipes(
+                query = query,
+                type = foodCategories?.map { it.title }?.joinToString()
+            ).map {
                 when (it) {
                     is ApiResponse.Success -> {
                         Resource.Success(it.data.map { recipeResponse ->
@@ -67,11 +71,25 @@ class CoreRepository @Inject constructor(
 
     override fun getFavoriteRecipes(
         query: String?,
-        type: String?,
+        foodCategories: List<FoodCategory>?,
     ): Flow<Resource<List<Recipe>>> {
         return flow {
             emitAll(localDataSource.getFavoriteRecipes(query).map {
-                Resource.Success(it.map { recipeEntity ->
+                val foodCategoriesString = foodCategories?.map { foodCategory ->
+                    foodCategory.title?.toLowerCase(Locale.getDefault())
+                }
+
+                val results = if (!foodCategoriesString.isNullOrEmpty()) {
+                    it.filter { recipeEntity ->
+                        recipeEntity.dishTypes?.map { dishType ->
+                            dishType.toLowerCase(Locale.getDefault())
+                        }?.any(foodCategoriesString::contains) == true
+                    }
+                } else {
+                    it
+                }
+
+                Resource.Success(results.map { recipeEntity ->
                     DataMapper.mapRecipeEntityToDomain(recipeEntity)
                 })
             })

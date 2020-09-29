@@ -142,10 +142,7 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
 
         viewModel.filterFoodCategoryList.observe(viewLifecycleOwner, {
             recipeSectionAdapter.setFilterFoodCategories(it)
-            viewModel.getRecipes(
-                binding.searchView.query.toString(),
-                it.map { foodCategory -> foodCategory.title }.joinToString()
-            )
+            viewModel.getRecipes(binding.searchView.query.toString(), it)
         })
     }
 
