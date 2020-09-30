@@ -1,7 +1,13 @@
+
 # android-clean-architecture
 This is a sample project that presents a modern, 2020 approach to [Android](https://en.wikipedia.org/wiki/Android_(operating_system)) application development with up to date tech-stack.
 
-The goal of the project is to demonstrate best practices by using up to date tech-stack and presenting mod  ern Android application [Architecture](#architecture) that is modular, scalable, maintainable, and testable. This application may look quite simple, but it has all of these small details that will set the rock-solid foundation for the larger app suitable for bigger teams and long [application lifecycle](https://en.wikipedia.org/wiki/Application_lifecycle_management).
+The goal of the project is to demonstrate best practices by using up to date tech-stack and presenting modern Android application [Architecture](#architecture) that is modular, scalable, maintainable, and testable. This application may look quite simple, but it has all of these small details that will set the rock-solid foundation for the larger app suitable for bigger teams and long [application lifecycle](https://en.wikipedia.org/wiki/Application_lifecycle_management).
+
+
+## Screenshots
+<img src="https://github.com/sansets/android-clean-architecture/blob/master/screenshots/demo.gif?raw=true" width="200">
+
 
 ## Environment Setup
 First off, you require the latest Android Studio 4.0.1 (or newer) to be able to build the app.
