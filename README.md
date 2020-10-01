@@ -6,7 +6,9 @@ The goal of the project is to demonstrate best practices by using up to date tec
 
 
 ## Screenshots
-<img src="https://github.com/sansets/android-clean-architecture/blob/master/screenshots/demo.gif?raw=true" width="200">
+Home	|	Favorite	|	Food Recipe List	|	Filter	|
+:------:|:---------------------:|:-----------------------------:|:-------------:|
+![](https://github.com/sansets/android-clean-architecture/blob/master/screenshots/Screenshot_20201001-164331388.jpg?raw=true)  |  ![](https://github.com/sansets/android-clean-architecture/blob/master/screenshots/Screenshot_20201001-164438602.jpg?raw=true)  |  ![](https://github.com/sansets/android-clean-architecture/blob/master/screenshots/Screenshot_20201001-164500548.jpg?raw=true?raw=true)  |  ![](https://github.com/sansets/android-clean-architecture/blob/master/screenshots/Screenshot_20201001-164508234.jpg?raw=true)
 
 
 ## Environment Setup
@@ -43,7 +45,7 @@ Min API level is set to 21, so the presented approach is suitable for over 94% o
     -   [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)  - designed to store and manage UI-related data in a lifecycle conscious way. The ViewModel class allows data to survive configuration changes such as screen rotations.
 -   [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)  - managing background threads with simplified code and reducing needs for callbacks.
 -    [Coroutines Flow](https://kotlinlang.org/docs/reference/coroutines-overview.html)  - cold asynchronous data stream that sequentially emits values and completes normally or with an exception
--   [Dagger2](https://dagger.dev/)  - dependency injector for replacement all FactoryFactory classes.
+-   [Dagger2](https://dagger.dev/)  - dependency injector for replacement all Factory classes.
 -   [Retrofit](https://square.github.io/retrofit/)  - type-safe HTTP client.
 -   [Glide](https://github.com/bumptech/glide)  - image loading and caching library
 
