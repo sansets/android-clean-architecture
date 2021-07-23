@@ -76,7 +76,7 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         binding.toolbar.menu[0].setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_favorite -> {

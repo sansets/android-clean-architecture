@@ -113,7 +113,7 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
     private fun initView() {
         binding.root.findViewById<TextView>(androidx.appcompat.R.id.search_src_text).typeface =
             ResourcesCompat.getFont(requireContext(), coreR.font.raleway_medium)
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         binding.searchView.setOnQueryTextListener(binding.searchView.onQueryTextListener())
         binding.btnFilter.setOnClickListener { onOpenRecipeFilter() }
         binding.swipeRefresh.apply {
