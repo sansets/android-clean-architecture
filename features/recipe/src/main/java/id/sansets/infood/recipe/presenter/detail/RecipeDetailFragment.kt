@@ -80,7 +80,12 @@ class RecipeDetailFragment : Fragment() {
         binding.toolbar.menu[0].setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_favorite -> {
-                    args.StringArgumentRecipe?.let { recipe -> viewModel.setFavorite(recipe) }
+                    args.StringArgumentRecipe?.let { recipe ->
+                        viewModel.setFavorite(recipe)
+                        findNavController().previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set(RESULT_IS_FAVORITE_CHANGED, true)
+                    }
                 }
             }
             return@setOnMenuItemClickListener true
@@ -196,6 +201,8 @@ class RecipeDetailFragment : Fragment() {
     }
 
     companion object {
+        const val RESULT_IS_FAVORITE_CHANGED = "is_favorite_changed"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
