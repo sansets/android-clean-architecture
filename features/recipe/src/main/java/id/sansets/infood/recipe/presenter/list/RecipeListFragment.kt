@@ -23,6 +23,7 @@ import id.sansets.infood.core.util.autoCleared
 import id.sansets.infood.core.util.setAppBarElevationListener
 import id.sansets.infood.recipe.databinding.FragmentRecipeListBinding
 import id.sansets.infood.recipe.di.DaggerRecipeComponent
+import id.sansets.infood.recipe.presenter.detail.RecipeDetailFragment
 import id.sansets.infood.recipe.presenter.filter.RecipeFilterFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -62,7 +63,7 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRecipeListBinding.inflate(inflater, container, false)
         return binding.root
@@ -144,6 +145,13 @@ class RecipeListFragment : Fragment(), RecipeListActionListener {
             recipeSectionAdapter.setFilterFoodCategories(it)
             viewModel.getRecipes(binding.searchView.query.toString(), it)
         })
+
+        findNavController().currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>(RecipeDetailFragment.RESULT_IS_FAVORITE_CHANGED)
+            ?.observe(viewLifecycleOwner) { result ->
+                if (result) onRefreshRecipes()
+            }
     }
 
     private fun initData() {
