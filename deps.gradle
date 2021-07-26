@@ -1,17 +1,17 @@
 ext {
-    gradleVersion = '4.0.1'
+    gradleVersion = '4.2.2'
     kotlinVersion = '1.4.10'
 
     lifecycleVersion = '2.2.0'
     coroutineVersion = '1.3.9'
-    glideVersion = '4.11.0'
+    glideVersion = '4.12.0'
     chuckOkHttpLoggingVersion = '1.1.0'
-    navigationVersion = '2.3.0'
-    roomVersion = '2.2.5'
+    navigationVersion = '2.3.5'
+    roomVersion = '2.3.0'
     retrofitVersion = '2.9.0'
     okHttpVersion = '4.9.0'
-    chuckerVersion = '3.2.0'
-    daggerVersion = '2.29.1'
+    chuckerVersion = '3.5.0'
+    daggerVersion = '2.38'
 
     config = [
             applicationId    : "id.sansets.infood",
@@ -27,14 +27,14 @@ ext {
     ]
 
     supportDependencies = [
-            coreKtx            : "androidx.core:core-ktx:1.3.1",
-            material           : "com.google.android.material:material:1.3.0-alpha02",
+            coreKtx            : "androidx.core:core-ktx:1.6.0",
+            material           : "com.google.android.material:material:1.4.0",
             lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
             lifecycleViewModel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
             lifecycleLiveData  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
             lifecycleCommonJava: "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
-            fragmentKtx        : "androidx.fragment:fragment-ktx:1.2.5",
-            appcompat          : "androidx.appcompat:appcompat:1.2.0"
+            fragmentKtx        : "androidx.fragment:fragment-ktx:1.3.6",
+            appcompat          : "androidx.appcompat:appcompat:1.3.1"
     ]
 
     kotlinDependencies = [
@@ -45,7 +45,7 @@ ext {
     ]
 
     layoutDependencies = [
-            constraint  : "androidx.constraintlayout:constraintlayout:1.1.3",
+            constraint  : "androidx.constraintlayout:constraintlayout:2.0.4",
             swiperefresh: "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
             gridlayout  : "androidx.gridlayout:gridlayout:1.0.0",
     ]
@@ -71,8 +71,8 @@ ext {
     ]
 
     firebaseDependencies = [
-            core     : 'com.google.firebase:firebase-core:17.3.0',
-            analytics: 'com.google.firebase:firebase-analytics-ktx:17.3.0',
+            core     : 'com.google.firebase:firebase-core:19.0.0',
+            analytics: 'com.google.firebase:firebase-analytics-ktx:19.0.0',
     ]
 
     networkDependencies = [
@@ -94,8 +94,8 @@ ext {
 
     testDependencies = [
             junit             : 'junit:junit:4.13',
-            androidxJunit     : 'androidx.test.ext:junit:1.1.2',
-            androidxEspresso  : 'androidx.test.espresso:espresso-core:3.2.0',
-            androidXAnnotation: 'androidx.annotation:annotation:1.1.0'
+            androidxJunit     : 'androidx.test.ext:junit:1.1.3',
+            androidxEspresso  : 'androidx.test.espresso:espresso-core:3.4.0',
+            androidXAnnotation: 'androidx.annotation:annotation:1.2.0'
     ]
 }
