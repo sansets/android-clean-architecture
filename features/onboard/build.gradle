@@ -1,29 +1,21 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.dynamic-feature"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply from: '../deps.gradle'
+apply from: '../../deps.gradle'
 
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
 
     defaultConfig {
-        applicationId config.applictionId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
         versionCode config.versionCode
         versionName config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
     compileOptions {
@@ -38,22 +30,21 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    dynamicFeatures = [
-            ':features:onboard',
-            ':features:home',
-            ':features:recipe',
-    ]
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // Module
+    implementation project(":app")
     implementation project(":core")
 
     // Support
+    implementation supportDependencies.appcompat
+    implementation supportDependencies.coreKtx
+    implementation supportDependencies.fragmentKtx
     implementation supportDependencies.material
+    implementation supportDependencies.lifecycleLiveData
 
     // Dependency Injection
     kapt injectionDependencies.daggerCompiler
@@ -61,9 +52,6 @@ dependencies {
     // Network
     implementation networkDependencies.glide
     kapt networkDependencies.glideCompiler
-
-    // Libraries
-    debugImplementation libraries.databaseBrowser
 
     // Unit Test
     testImplementation testDependencies.junit

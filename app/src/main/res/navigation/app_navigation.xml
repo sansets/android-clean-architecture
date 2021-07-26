@@ -3,7 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_onboard">
+
+    <fragment
+        android:id="@+id/navigation_onboard"
+        android:name="id.sansets.infood.onboard.presenter.OnboardFragment"
+        android:label="@string/title_onboard"
+        tools:layout="@layout/fragment_onboard">
+
+        <action
+            android:id="@+id/action_onboard_fragment_to_navigation_home_fragment"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/app_navigation"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_home"
